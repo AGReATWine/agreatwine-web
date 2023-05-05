@@ -51,10 +51,16 @@ def show_entries():
         search_query = request.form['q']
         conn = sqlite3.connect('allwines.db')
         c = conn.cursor()
-        c.execute(
-            'SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC, QPRANK FROM allwines WHERE Entry = 1 AND (FullName LIKE ? OR WineryName LIKE ?)',
-            ('%' + search_query + '%', '%' + search_query + '%',)
-        )
+        if len(search_query.split()) > 1:
+            c.execute(
+                'SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC, QPRANK FROM allwines WHERE Entry = 1 AND (FullName LIKE ? OR WineryName LIKE ? OR Pairing LIKE ? OR FullName LIKE ? OR WineryName LIKE ? OR Pairing LIKE ?)',
+                ('%' + search_query + '%', '%' + search_query + '%', '%' + search_query + '%', '%' + search_query.split()[0] + '% %' + search_query.split()[1] + '%', '%' + search_query.split()[1] + '% %' + search_query.split()[0] + '%', '%' + search_query.split()[0] + '% %' + search_query.split()[1] + '%')
+            )
+        else:
+            c.execute(
+                'SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC, QPRANK FROM allwines WHERE Entry = 1 AND (FullName LIKE ? OR WineryName LIKE ? OR Pairing LIKE ?)',
+                ('%' + search_query + '%', '%' + search_query + '%', '%' + search_query + '%')
+            )
         entries = c.fetchall()
         conn.close()
 
