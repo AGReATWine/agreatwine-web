@@ -11,6 +11,8 @@
     </div>
 
 {% for wine in winery_wines%}
+{% set perc_rs_value = ((wine[6]-wine[8]+1)/wine[6]*100) %}
+{% set perc_qp_value = ((wine[7]-wine[27]+1)/wine[7]*100) %}
         <div class="container sorting-group ps-0 pe-0 mt-2">
                     <div class="list-group sorting-element">
                         <a  href="{{ url_for('show_wine', fullname=wine[0], wineryname=wine[1]) }}" class="list-group-item list-group-item-action pe-0">
@@ -18,7 +20,7 @@
                                 <h5 class="mb-1 text-danger">{{ wine[0] }}</h5>
                             </div>
                             <small class="mb-1"><b>{{wine[1]}}</b> | {{wine[2]}} {{wine[3]}} | {{wine[4]}} </small>
-                            <small style="display:inline-block; line-height:1.2; max-height: 2.4em; overflow: hidden; text-overflow: ellipsis">{{wine[5].replace('nd', '').rstrip(' –')}}</small>
+                            <small style="display:block; line-height:1.2; max-height: 2.4em; overflow: hidden; text-overflow: ellipsis">{{wine[5].replace('nd', '').rstrip(' –')}}</small>
                             <div class="container text-left ps-0 mt-1">
                                 <div class="row mb-1">
                                     <div class="col-1">
@@ -26,11 +28,11 @@
                                     </div>
                                     <div class="col">
                                         <div class="progress" style="height: 20px;">
-                                            <div class="sort-value progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine[6] }}%"></div>
+                                            <div class="sort-value progress-bar progress-bar-striped {% if perc_rs_value >= 75 and perc_rs_value <= 89 %}bg-success{% elif perc_rs_value >= 25 and perc_rs_value <= 74 %}bg-warning{% elif perc_rs_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine[6] }}%"></div>
                                         </div>
                                     </div>
                                     <div class="col-3 pe-0">
-                                    <small><i class="text-danger fa-solid fa-ranking-star"></i>{{wine[8]|int}} <i class=" text-danger fa fa-star"></i>{{wine[10] | replace('0', '')}}</small>
+                                    <small><i class="text-danger fa-solid fa-ranking-star"></i>{{wine[8]|int}}/{{wine_counts[loop.index0]}} <i class=" text-danger fa fa-star"></i>{{wine[10] | replace('0', '')}}</small>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -39,7 +41,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="progress" style="height: 20px;">
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine[7] }}%"></div>
+                                            <div class="progress-bar progress-bar-striped {% if perc_qp_value >= 75 and perc_qp_value <= 89 %}bg-success{% elif perc_qp_value >= 25 and perc_qp_value <= 74 %}bg-warning{% elif perc_qp_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine[7] }}%"></div>
                                         </div>
                                     </div>
                                     <div class="col-3 pe-0">

@@ -153,13 +153,23 @@ def show_wine():
 def show_winery(winery_name):
     conn = sqlite3.connect('allwines.db')
     c = conn.cursor()
-    c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3 FROM allwines WHERE Entry = 1 AND WineryName = ?', (winery_name.replace("-", " "),))
+    
+    c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC, QPRANK FROM allwines WHERE Entry = 1 AND WineryName = ?', (winery_name.replace("-", " "),))
     winery_wines = c.fetchall()
+    
+    wine_counts = []
+    for wine in winery_wines:
+        appellation_name = wine[3]
+        wine_type = wine[11]
+        c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1 AND AppellationName = ? AND WineType = ?', (appellation_name, wine_type))
+        count = c.fetchone()[0]
+        wine_counts.append(count)
+
     conn.close()
 
     count = len(winery_wines)
 
-    return render_template('winery.html.j2', winery_name=winery_name, count=count, winery_wines=winery_wines)
+    return render_template('winery.html.j2', winery_name=winery_name, count=count, winery_wines=winery_wines, wine_counts=wine_counts)
 
 @app.route("/appellations/<appellation_name>")
 def show_appellation(appellation_name):
