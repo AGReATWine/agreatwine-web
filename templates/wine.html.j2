@@ -1,0 +1,155 @@
+{% extends 'base.html.j2' %}
+
+{% block title %} {{ wine_data[0] }} – {{ wine_data[1] }}{% endblock %}
+
+{% block content %}
+    <h1>{{ wine_data[0] }}</h1>
+    <h2 class="text-danger"><i class="fa fa-list"></i> Details</h2>
+    <div class="container-sm" style="max-width:540px;margin-left:0px">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Winery</td>
+                    <td><a href="{{ url_for('show_winery', winery_name=winery_name.replace(" ", "-")) }}" data-name="{{ winery_name }}">{{ wine_data[1] }}</a></td>
+                </tr>
+                <tr>
+                    <td>Appellation</td>
+                    <td><a href="{{ url_for('show_appellation', appellation_name=appellation_name.replace(" ", "-")) }}" data-name="{{ appellation_name }}">{{ wine_data[3] }}</a></td>
+                </tr>
+                {% if wine_data[25] != "" %}
+                    <tr>
+                        <td>Varieties</td>
+                        <td>{{ wine_data[25] }}</td>
+                    </tr>
+                {% endif %}
+                {% if wine_data[26] != "" %}
+                    <tr>
+                        <td>Varieties</td>
+                        <td>{{ wine_data[26] }}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td>Region</td>
+                    <td>{{ wine_data[4] }}</td>
+                </tr>
+                <tr>
+                    <td>Grapes</td>
+                    <td>{{ wine_data[12] }}</td>
+                </tr>
+                <tr>
+                    <td>Aging</td>
+                    <td>{{ wine_data[14] }} | {{ wine_data[13] }} months</td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td>{{ wine_data[9]|int }}€</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h2 class="text-danger"><i class="fa-solid fa-utensils"></i> Pairings</h2>
+    <ul class="list-group mb-2">
+        {% for item in wine_data[5].split(" – ") if item != "nd" %}
+            <li class="list-group-item border-0">{{ item }}</li>
+        {% endfor %}
+    </ul>
+    <h2 class="text-danger"><i class="fa-solid fa-circle-check"></i> Scores</h2>
+    <div class="container text-left ps-0 mt-1 mb-2" style="max-width:540px;margin-left:0px">
+        <div class="row mb-1">
+            <div class="col-1">
+                <div>RS</div>
+            </div>
+            <div class="col">
+                <div class="progress" style="height: 20px;">
+                    <div class="sort-value progress-bar progress-bar-striped {% if perc_rs_value >= 75 and perc_rs_value <= 89 %}bg-success{% elif perc_rs_value >= 25 and perc_rs_value <= 74 %}bg-warning{% elif perc_rs_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine_data[6] }}%"></div>
+                </div>
+            </div>
+            <div class="col-3 pe-0">
+            <small><i class="text-danger fa-solid fa-ranking-star"></i>{{wine_data[8]|int}} <i class=" text-danger fa fa-star"></i>{{wine_data[10] | replace('0', '')}}</small>
+            </div>
+        </div>
+        {% if perc_rs2_value != 'null' %}
+            <div class="row mb-1">
+                <div class="col-1">
+                    <div>RS²</div>
+                </div>
+                <div class="col">
+                    <div class="progress" style="height: 20px;">
+                        <div class="sort-value progress-bar progress-bar-striped {% if perc_rs2_value >= 75 and perc_rs2_value <= 89 %}bg-success{% elif perc_rs2_value >= 25 and perc_rs2_value <= 74 %}bg-warning{% elif perc_rs2_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine_data[15] }}%"></div>
+                    </div>
+                </div>
+                <div class="col-3 pe-0">
+                    <small><i class="text-danger fa-solid fa-ranking-star"></i>{{wine_data[19]|int}}</small>
+                </div>
+            </div>
+        {% endif %}
+        {% if perc_rs3_value != 'null' %}
+            <div class="row mb-1">
+                <div class="col-1">
+                    <div>RS³</div>
+                </div>
+                <div class="col">
+                    <div class="progress" style="height: 20px;">
+                        <div class="sort-value progress-bar progress-bar-striped {% if perc_rs3_value >= 75 and perc_rs3_value <= 89 %}bg-success{% elif perc_rs3_value >= 25 and perc_rs3_value <= 74 %}bg-warning{% elif perc_rs3_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine_data[15] }}%"></div>
+                    </div>        
+                </div>
+                <div class="col-3 pe-0">
+                    <small><i class="text-danger fa-solid fa-ranking-star"></i>{{wine_data[20]|int}}</small>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-1">
+                <div>QP</div>
+            </div>
+            <div class="col">
+                <div class="progress" style="height: 20px;">
+                    <div class="progress-bar progress-bar-striped {% if perc_qp_value >= 75 and perc_qp_value <= 89 %}bg-success{% elif perc_qp_value >= 25 and perc_qp_value <= 74 %}bg-warning{% elif perc_qp_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine_data[7] }}%"></div>
+                </div>
+            </div>
+            <div class="col-3 pe-0">
+            <small><i class="text-danger fa fa-euro-sign"></i>{{wine_data[9]|int}}</small>
+            </div>
+        </div>
+    </div>
+    <h2 class="text-danger"><i class="fa-solid fa-calendar"></i> Vintages</h2>
+    <div class="container-sm text-center mb-2" style="max-width:540px;margin-left:0px">
+        {% for vintage in vintages_data %}
+        <div class="row">
+            <div class="col">{{ vintage[22]|int }}</div>
+            <div class="col"><i class="fa fa-solid fa-star text-danger"></i>{{ vintage[10] }}</div>
+            <div class="col"><i class="fa fa-solid fa-star text-danger"></i>{{ vintage[23]|int }}</div>     
+            {% if vintage[24] != '' %}
+                <div class="col"><i type="button" data-bs-toggle="modal" data-bs-target="#modal-{{vintage[22]|int}}" class="fa fa-align-justify show-tasting text-danger"></i></div>
+            {% else %}
+                <div class="col"><i class="fa-solid fa-align-slash"></i></div>
+            {% endif %}   
+        </div>     
+        <div class="modal fade" id="modal-{{vintage[22]|int}}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-body" style="text-align:justify">
+                    {{vintage[24]}}
+                </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <h2 class="text-danger"><i class="fa fa-euro-sign"></i> Prices Chart</h2>
+
+
+    <svg width="400" height="400"></svg>
+    <script>
+        var vintageData = [];
+        {% for vintage in vintages_data %}
+            vintageData.push([{{vintage[21]}}, {{vintage[9]}}]);
+            console.log(vintageData);
+        {% endfor %}
+
+        var wineData = {{wine_data | tojson}}; 
+        var medians = {{medians | tojson}};
+        var minMax = {{minmax | tojson}}
+    </script>
+    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'base.html.j2' %}
+
+{% block title %}
+    {% if request.path == '/docg_appellations' %}
+        DOCG Appellations
+    {% else %}
+        DOC Appellations
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    {% if request.path == '/docg_appellations' %}
+        <h1 class="bd-title mb-0">DOCG Appellations</h1>
+        <small class="text-secondary">Number of appellations: {{ count }}</small>
+        <div class="form-group mt-4 mb-0">
+            <input type="text" class="form-control border-0 rounded-0 border-bottom border-danger" id="filterInput" placeholder="Filter by appellation name">
+        </div>
+        <div class="list-group mt-4">
+            {% set counter = 1 %}
+            {% for appellation_name, region in appellations %}
+                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_appellation', appellation_name=appellation_name.replace(" ", "-")) }}" data-name="{{ appellation_name }}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1 text-nowrap" style="overflow-x: hidden; text-overflow: ellipsis; max-width: 90%;">{{ appellation_name }}</h5>
+                        <span class="badge bg-danger pt-2">{{ counts[loop.index-1] }}</span>
+                    </div>
+                    <p class="mb-1">{{ region }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% elif request.path == '/doc_appellations'%}
+        <h1 class="bd-title mb-0">DOC Appellations</h1>
+        <small class="text-secondary">Number of appellations: {{ count }}</small>
+        <div class="form-group mt-4 mb-0">
+            <input type="text" class="form-control border-0 rounded-0 border-bottom border-danger" id="filterInput" placeholder="Filter by appellation name">
+        </div>
+        <div class="list-group mt-4">
+            {% set counter = 1 %}
+            {% for appellation_name, region in appellations %}
+                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_appellation', appellation_name=appellation_name.replace(" ", "-")) }}" data-name="{{ appellation_name }}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1 text-nowrap" style="overflow-x: hidden; text-overflow: ellipsis; max-width: 90%;">{{ appellation_name }}</h5>
+                        <span class="badge bg-danger bg-danger pt-2">{{ counts[loop.index-1] }}</span>
+                    </div>
+                    <p class="mb-1">{{ region }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% elif request.path == '/tlc'%}
+        <h1 class="bd-title mb-0">Regional Comparisons</h1>
+        <small class="text-secondary">Number of regional comparisons: {{ count }}</small>
+        <div class="form-group mt-4 mb-0">
+            <input type="text" class="form-control border-0 rounded-0 border-bottom border-danger" id="filterInput" placeholder="Filter by appellation name">
+        </div>
+        <div class="list-group mt-4">
+            {% set counter = 1 %}
+            {% for appellation_name, region in appellations %}
+                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_regional', regional=appellation_name.replace(" ", "-")) }}" data-name="{{ appellation_name }}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1 text-nowrap" style="overflow-x: hidden; text-overflow: ellipsis; max-width: 90%;">{{ appellation_name }}</h5>
+                        <span class="badge bg-danger bg-danger pt-2">{{ counts[loop.index-1] }}</span>
+                    </div>
+                    <p class="mb-1">{{ region }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h1 class="bd-title mb-0">Varieties Comparisons</h1>
+        <small class="text-secondary">Number of varieties comparisons: {{ count }}</small>
+        <div class="form-group mt-4 mb-0">
+            <input type="text" class="form-control border-0 rounded-0 border-bottom border-danger" id="filterInput" placeholder="Filter by appellation name">
+        </div>
+        <div class="list-group mt-4">
+            {% set counter = 1 %}
+            {% for appellation_name, region in appellations %}
+                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_comparison', comparison=appellation_name.replace(" ", "-")) }}" data-name="{{ appellation_name }}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1 text-nowrap" style="overflow-x: hidden; text-overflow: ellipsis; max-width: 90%;">{{ appellation_name }}</h5>
+                        <span class="badge bg-danger bg-danger pt-2">{{ counts[loop.index-1] }}</span>
+                    </div>
+                    <p class="mb-1">{{ region }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+{% endblock %}

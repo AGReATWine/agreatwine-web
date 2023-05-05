@@ -1,0 +1,65 @@
+{% extends 'base.html.j2' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!--<div class="container d-flex justify-content-center">
+    <div class="row">
+      <div class="col">
+        <a href="#" class="link-primary" onclick="window.location.href='/allwines'; document.getElementsByName('q')[0].value='';">All Wines</button>
+      </div>
+    </div> 
+</div>-->
+<div class="container" style="max-width:576px">
+  <div class="row">
+    {% if entries %}
+    <p>Number of results: {{ count }}</p>
+  </div>
+  <div class="row">
+    {% for entry in entries %}
+    {% set perc_rs_value = ((entry[6]-entry[8]+1)/entry[6]*100) %}
+    {% set perc_qp_value = ((entry[7]-entry[27]+1)/entry[7]*100) %}
+      <div class="list-group sorting-element">
+            <a  href="{{ url_for('show_wine', fullname=entry[0], wineryname=entry[1]) }}" class="list-group-item list-group-item-action pe-0">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1 text-danger">{{ entry[0] }}</h5>
+                </div>
+                <small class="mb-1"><b>{{entry[1]}}</b> | {{entry[2]}} {{entry[3]}} | {{entry[4]}} </small>
+                <small style="display:block; line-height:1.2; max-height: 2.4em; overflow: hidden; text-overflow: ellipsis">{{entry[5].replace('nd', '').rstrip(' –')}}</small>
+                <div class="container text-left ps-0 mt-1">
+                    <div class="row mb-1">
+                        <div class="col-1">
+                            <div>RS</div>
+                        </div>
+                        <div class="col">
+                            <div class="progress" style="height: 20px;">
+                                <div class="sort-value progress-bar progress-bar-striped {% if perc_rs_value >= 75 and perc_rs_value <= 89 %}bg-success{% elif perc_rs_value >= 25 and perc_rs_value <= 74 %}bg-warning{% elif perc_rs_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ entry[6] }}%"></div>
+                            </div>
+                        </div>
+                        <div class="col-3 pe-0">
+                        <small><i class="text-danger fa-solid fa-ranking-star"></i> {{entry[8]|int}}/{{appellation_counts[entry[3]]}} <i class=" text-danger fa fa-star"></i> {{entry[10] | replace('0', '')}}</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <div>QP</div>
+                        </div>
+                        <div class="col">
+                            <div class="progress" style="height: 20px;">
+                                <div class="progress-bar progress-bar-striped {% if perc_qp_value >= 75 and perc_qp_value <= 89 %}bg-success{% elif perc_qp_value >= 25 and perc_qp_value <= 74 %}bg-warning{% elif perc_qp_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ entry[7] }}%"></div>
+                            </div>
+                        </div>
+                        <div class="col-3 pe-0">
+                        <small><i class="text-danger fa fa-euro-sign"></i> {{entry[9]|int}}</small>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+      {% endfor %}
+    {% else %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

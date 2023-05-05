@@ -1,0 +1,99 @@
+{% extends 'base.html.j2' %}
+
+{% block title %} Varieties comparisons{% endblock %}
+
+{% block content %}
+
+    {% if '/comparisons' in request.path %}
+
+        <h1>{{ comparison }} </h1>
+
+    {% elif '/regional' in request.path %}
+
+        <h1>{{ regional }}</h1>
+
+    {% else %}
+
+        <h1>{{ entries[0][3] }} {{entries[0][2]}} </h1>
+
+    {% endif %}
+    <div class="container ms-0" style="max-width:578px">
+        <div class="form-group mt-4 mb-0">
+            <input type="text" class="form-control border-0 rounded-0 border-bottom border-danger" id="filter-input" placeholder="Filter by name">
+        </div>
+        {% for value, group in entries | groupby(11) %}
+            <h4 class="sort-action mt-4 mb-4" id="{{ value }}">{{ value }} <i class="text-primary sort-btn float-end fa-solid fa-sort"></i> <span class="float-end pe-1">RS</span></h4>
+            <div class="container sorting-group ps-0 pe-0">
+                {% for entry in group %} 
+                {% if '/comparisons' in request.path %}
+                    {% if entry[15] == 0 %}
+                        {% set entry_15 = 0.1 %}
+                        {% set entry_7 = 0.1 %}
+                    {% else %}
+                        {% set entry_15 = entry[15] %}
+                        {% set entry_7 = entry[7] %}
+                    {% endif %}
+                    {% set perc_rs_value= ((entry_15-entry[19]+1)/entry_15*100) %}
+                    {% set perc_qp_value = ((entry_7-entry[27]+1)/entry_7*100) %}
+                {% elif '/regional' in request.path %}
+                    {% set perc_rs_value= ((entry[17]-entry[20]+1)/entry[17]*100) %}
+                    {% set perc_qp_value = ((entry[7]-entry[27]+1)/entry[7]*100) %}
+                {% else %}
+                    {% set perc_rs_value = ((entry[6]-entry[8]+1)/entry[6]*100) %}
+                    {% set perc_qp_value = ((entry[7]-entry[27]+1)/entry[7]*100) %}     
+                {% endif %}
+                        <div class="list-group sorting-element">
+                            <a  href="{{ url_for('show_wine', fullname=entry[0], wineryname=entry[1]) }}" class="list-group-item list-group-item-action pe-0">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1 text-danger">{{ entry[0] }}</h5>
+                                </div>
+                                <small class="mb-1"><b>{{entry[1]}}</b> | {{entry[2]}} {{entry[3]}} | {{entry[4]}} </small>
+                                <small style="display:block; line-height:1.2; max-height: 2.4em; overflow: hidden; text-overflow: ellipsis">{{entry[5].replace('nd', '').rstrip(' –')}}</small>
+                                <div class="container text-left ps-0 mt-1">
+                                    <div class="row mb-1">
+                                        <div class="col-1">
+                                            <div>RS</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="progress" style="height: 20px;">
+                                                <div class="sort-value progress-bar progress-bar-striped {% if perc_rs_value >= 75 and perc_rs_value <= 89 %}bg-success{% elif perc_rs_value >= 25 and perc_rs_value <= 74 %}bg-warning{% elif perc_rs_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ entry[6] }}%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 pe-0">
+                                        <small><i class="text-danger fa-solid fa-ranking-star"></i> {{entry[8]|int}}/{{count_per_wine_type[entry[11]]}} <i class=" text-danger fa fa-star"></i> {{entry[10] | replace('0', '')}}</small>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <div>QP</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="progress" style="height: 20px;">
+                                                <div class="progress-bar progress-bar-striped {% if perc_qp_value >= 75 and perc_qp_value <= 89 %}bg-success{% elif perc_qp_value >= 25 and perc_qp_value <= 74 %}bg-warning{% elif perc_qp_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ entry[7] }}%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 pe-0">
+                                        <small><i class="text-danger fa fa-euro-sign"></i> {{entry[9]|int}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if entries | groupby(11) | length > 1 %}
+    <div class="fixed-bottom bg-danger shadow">
+        <ul class="justify-content-center list-group list-group-horizontal position-relative overflow-auto">
+            {% for value, group in entries | groupby(11) %}
+                <li class="bg-danger border-0 text-light fw-bold text-nowrap list-group-item"><a class="nav-link active" href="#{{ value }}">{{ value }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    {% endif %}
+
+    {# <a href="{{ url_for('show_entries') }}">Back</a> #}
+{% endblock %}
