@@ -45,6 +45,18 @@ def home():
     return render_template('home.html.j2', count=count)
     
 
+@app.route("/test", methods=['GET', 'POST'])
+def show_entries():
+    if request.method == 'POST':
+        search_query = request.form['q']
+        conn = sqlite3.connect('allwines.db')
+        c = conn.cursor()
+        c.execute()
+        entries = c.fetchall()
+        conn.close()
+
+    return render_template('test.html.j2')
+
 @app.route("/search", methods=['GET', 'POST'])
 def show_entries():
     if request.method == 'POST':
@@ -52,9 +64,10 @@ def show_entries():
         conn = sqlite3.connect('allwines.db')
         c = conn.cursor()
         if len(search_query.split()) > 1:
+            wildcard_query = '%' + '%'.join(search_query.split()) + '%'
             c.execute(
-                'SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC, QPRANK FROM allwines WHERE Entry = 1 AND (FullName LIKE ? OR WineryName LIKE ? OR Pairing LIKE ? OR FullName LIKE ? OR WineryName LIKE ? OR Pairing LIKE ?)',
-                ('%' + search_query + '%', '%' + search_query + '%', '%' + search_query + '%', '%' + search_query.split()[0] + '% %' + search_query.split()[1] + '%', '%' + search_query.split()[1] + '% %' + search_query.split()[0] + '%', '%' + search_query.split()[0] + '% %' + search_query.split()[1] + '%')
+                'SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC, QPRANK FROM allwines WHERE Entry = 1 AND (FullName LIKE ? OR WineryName LIKE ? OR Pairing LIKE ? OR FullName LIKE ? OR FullName LIKE ? OR WineryName LIKE ? OR WineryName LIKE ? OR Pairing LIKE ? OR Pairing LIKE ?)',
+                (wildcard_query, wildcard_query, wildcard_query, '%' + search_query.split()[0] + '% %' + search_query.split()[1] + '%', '%' + search_query.split()[1] + '% %' + search_query.split()[0] + '%', '%' + search_query.split()[0] + '% %' + search_query.split()[1] + '%', '%' + search_query.split()[1] + '% %' + search_query.split()[0] + '%', '%' + search_query.split()[0] + '% %' + search_query.split()[1] + '%', '%' + search_query.split()[1] + '% %' + search_query.split()[0] + '%')
             )
         else:
             c.execute(
