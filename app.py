@@ -43,19 +43,6 @@ def home():
     conn.close()
     
     return render_template('home.html.j2', count=count)
-    
-
-@app.route("/test", methods=['GET', 'POST'])
-def show_entries():
-    if request.method == 'POST':
-        search_query = request.form['q']
-        conn = sqlite3.connect('allwines.db')
-        c = conn.cursor()
-        c.execute()
-        entries = c.fetchall()
-        conn.close()
-
-    return render_template('test.html.j2')
 
 @app.route("/search", methods=['GET', 'POST'])
 def show_entries():
