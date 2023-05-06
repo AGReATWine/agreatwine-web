@@ -196,6 +196,15 @@ def show_appellation(appellation_name):
 def show_comparison(comparison):
     conn = sqlite3.connect('allwines.db')
     c = conn.cursor()
+
+    c.execute('SELECT DISTINCT WineType FROM allwines WHERE Entry = 1 AND AppellationName = ?', (comparison.replace("-", " "),))
+    wine_types = [row[0] for row in c.fetchall()]
+
+    count_per_wine_type = {}
+    for wine_type in wine_types:
+        c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1 AND AppellationName = ? AND WineType = ?', (comparison.replace("-", " "), wine_type))
+        count_per_wine_type[wine_type] = c.fetchone()[0]
+
     c.execute('SELECT FullName, WineryName FROM allwines WHERE Entry = 1 AND SLC = ?', (comparison,))
     wine_types = [row[0] for row in c.fetchall()]
     c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC, QPRANK FROM allwines WHERE Entry = 1 AND SLC = ?', (comparison.replace("-", " "),))
@@ -204,12 +213,21 @@ def show_comparison(comparison):
 
     count = len(entries)
 
-    return render_template('appellation.html.j2', comparison=comparison, count=count, entries=entries, wine_types=wine_types)
+    return render_template('appellation.html.j2', comparison=comparison, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type)
 
 @app.route("/regional/<regional>")
 def show_regional(regional):
     conn = sqlite3.connect('allwines.db')
     c = conn.cursor()
+
+    c.execute('SELECT DISTINCT WineType FROM allwines WHERE Entry = 1 AND AppellationName = ?', (regional.replace("-", " "),))
+    wine_types = [row[0] for row in c.fetchall()]
+
+    count_per_wine_type = {}
+    for wine_type in wine_types:
+        c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1 AND AppellationName = ? AND WineType = ?', (regional.replace("-", " "), wine_type))
+        count_per_wine_type[wine_type] = c.fetchone()[0]
+
     c.execute('SELECT FullName, WineryName FROM allwines WHERE Entry = 1 AND TLC = ?', (regional,))
     wine_types = [row[0] for row in c.fetchall()]
     c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS3, QP3, Rank, Price, EvaluationAvg, WineType FROM allwines WHERE Entry = 1 AND TLC = ?', (regional.replace("-", " "),))
@@ -218,7 +236,7 @@ def show_regional(regional):
 
     count = len(entries)
 
-    return render_template('appellation.html.j2', regional=regional, count=count, entries=entries, wine_types=wine_types)
+    return render_template('appellation.html.j2', regional=regional, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type)
 
 @app.route("/docg_appellations")
 def docg_appellations():
