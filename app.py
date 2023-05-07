@@ -113,15 +113,15 @@ def show_wine():
     wine_tlc = wine_data[26] 
 
     #total wines with the same RS
-    c.execute('SELECT COUNT(*) FROM allwines WHERE AppellationName = ? AND WineType = ?', (appellation_name, wine_type))
+    c.execute('SELECT COUNT(*) FROM allwines WHERE AppellationName = ? AND WineType = ? AND Entry = 1', (appellation_name, wine_type))
     wine_type_count = c.fetchone()[0]
 
     #total wines with the same RS2
-    c.execute('SELECT COUNT(*) FROM allwines WHERE SLC = ? AND WineType = ?', (wine_slc, wine_type))
+    c.execute('SELECT COUNT(*) FROM allwines WHERE SLC = ? AND WineType = ? AND Entry = 1', (wine_slc, wine_type))
     wine_slc_count = c.fetchone()[0]
 
     #total wines with the same RS3
-    c.execute('SELECT COUNT(*) FROM allwines WHERE TLC = ?', (wine_tlc))
+    c.execute('SELECT COUNT(*) FROM allwines WHERE TLC = ? AND WineType = ? AND Entry = 1', (wine_tlc, wine_type))
     wine_tlc_count = c.fetchone()[0]
     
     winery_name = wine_data[1]
