@@ -103,10 +103,27 @@ def show_wine():
     # fetch data from the database using fullname and wineryname
     conn = sqlite3.connect('allwines.db')
     c = conn.cursor()
+    
     c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC, QPRANK FROM allwines WHERE FullName = ? AND WineryName = ? AND Entry = 1', (fullname, wineryname))
     wine_data = c.fetchone()
 
     appellation_name = wine_data[3] 
+    wine_type = wine_data[11]
+    wine_slc = wine_data[25]
+    wine_tlc = wine_data[26] 
+
+    #total wines with the same RS
+    c.execute('SELECT COUNT(*) FROM allwines WHERE AppellationName = ? AND WineType = ?', (appellation_name, wine_type))
+    wine_type_count = c.fetchone()[0]
+
+    #total wines with the same RS2
+    c.execute('SELECT COUNT(*) FROM allwines WHERE SLC = ? AND WineType = ?', (wine_slc, wine_type))
+    wine_slc_count = c.fetchone()[0]
+
+    #total wines with the same RS3
+    c.execute('SELECT COUNT(*) FROM allwines WHERE TLC = ?', (wine_tlc))
+    wine_tlc_count = c.fetchone()[0]
+    
     winery_name = wine_data[1]
     perc_rs_value= ((wine_data[6]-wine_data[8]+1)/wine_data[6]*100)
     perc_qp_value= ((wine_data[7]-wine_data[27]+1)/wine_data[7]*100)
@@ -147,7 +164,7 @@ def show_wine():
 
     conn.close()
 
-    return render_template('wine.html.j2', wine_data=wine_data, vintages_data=vintages_data, appellation_data=appellation_data, medians=medians, minmax=minmax, appellation_name=appellation_name, winery_name=winery_name, perc_rs_value=perc_rs_value, perc_qp_value=perc_qp_value, perc_rs2_value=perc_rs2_value, perc_rs3_value=perc_rs3_value)
+    return render_template('wine.html.j2', wine_data=wine_data, vintages_data=vintages_data, appellation_data=appellation_data, medians=medians, minmax=minmax, appellation_name=appellation_name, winery_name=winery_name, perc_rs_value=perc_rs_value, perc_qp_value=perc_qp_value, perc_rs2_value=perc_rs2_value, perc_rs3_value=perc_rs3_value, wine_type_count=wine_type_count, wine_slc_count=wine_slc_count, wine_tlc_count=wine_tlc_count)
 
 @app.route("/winery/<winery_name>")
 def show_winery(winery_name):

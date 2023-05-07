@@ -65,7 +65,7 @@
                 </div>
             </div>
             <div class="col-3 pe-0">
-            <small><i class="text-danger fa-solid fa-ranking-star"></i>{{wine_data[8]|int}} <i class=" text-danger fa fa-star"></i>{{wine_data[10] | replace('0', '')}}</small>
+            <small><i class="text-danger fa-solid fa-ranking-star"></i>{{wine_data[8]|int}}/{{wine_type_count}} <i class=" text-danger fa fa-star"></i>{{wine_data[10] | replace('0', '')}}</small>
             </div>
         </div>
         {% if perc_rs2_value != 'null' %}
@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="col-3 pe-0">
-                    <small><i class="text-danger fa-solid fa-ranking-star"></i>{{wine_data[19]|int}}</small>
+                    <small><i class="text-danger fa-solid fa-ranking-star"></i>{{wine_data[19]|int}}/{{wine_slc_count}}</small>
                 </div>
             </div>
         {% endif %}
@@ -94,7 +94,7 @@
                     </div>        
                 </div>
                 <div class="col-3 pe-0">
-                    <small><i class="text-danger fa-solid fa-ranking-star"></i>{{wine_data[20]|int}}</small>
+                    <small><i class="text-danger fa-solid fa-ranking-star"></i>{{wine_data[20]|int}}/{{wine_tlc_count}}</small>
                 </div>
             </div>
         {% endif %}
