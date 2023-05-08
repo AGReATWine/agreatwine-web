@@ -302,7 +302,7 @@ def slc():
     conn.close()
 
     count = len(appellations)
-    return render_template('comparisons.html.j2', appellations=appellations, count=count, counts=counts,)
+    return render_template('comparisons.html.j2', appellations=appellations, count=count, counts=counts)
 
 @app.route("/tlc")
 def tlc():
