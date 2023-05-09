@@ -13,8 +13,7 @@
 </div>-->
 <div class="container " style="max-width:1000px">
   <p>This website aggregates and compares experts evaluations for <b>{{count}}</b> Italian wines over the years 2017-2023.
-    Wines can be searched from the form or by navigating the appellations. For more information on the aggregation and
-    comparison logic, keep reading.</p> 
+    Wines can be searched from the form or by navigating the appellations.</p> 
     
   <p>You can search for an individual wine from the top search form or explore <a href="/docg_appellations">DOCG</a>, <a href="/doc_appellations">DOC</a>, <a href="/slc">Varieties comparisons</a> and <a href="/tlc">Regional comparisons</a>.</p>
 
@@ -66,7 +65,7 @@
       an overview of wines performances over the years, so that the user may get to a better understanding on what to
       expect from its new vintage. If the time series shows that a wine have always had excellent performances, chances
       that the new vintage will be good increase. If, on the other hand, the time series shows that a specific wine has
-      had mostly average result and a single excellent vintage, than the user should be aware that he is trying her luck
+      had mostly average result and a single excellent vintage, than the user should be aware that she is trying her luck
       by buying it.</p>
     <p>The database shown in this website was made with the goal of overcoming this shortcoming of the Yearly Comparison
       method, giving users access to a range of information that are usually hidden if you look at a single year wine
@@ -89,11 +88,8 @@
       <li>B (a grade in the 86-92 range): a wine with at least two major strengths</li>
       <li>A (a grade in the 93-100 range): a wine with at least three major strengths</li>
     </ul>
-    <p>It does not really matter how a specific publication define "strengths" or "flaws" as long as a definition is
-      provided or can be inferred.</p>
-    <p>A given (by the reviewer) classification is needed to aggregate grades on for two reasons: (i) some reviewers
-      only disclose the wines class and not their grade and (ii) estimating the grade from the class is easier than
-      estimating the class from the grade.</p>
+    <p>It does not really matter how a specific publication define "strengths" or "flaws" as long as a definition is provided or can be inferred.</p>
+    <p>A given (by the reviewer) classification is needed to aggregate grades on for two reasons: (i) some reviewer only disclose the wines class and not their grade and (ii)  estimating the grade from the class is easier than estimating the class from the grade.</p>
     <p>Assuming the above classification, a wine with a grade of 78 falls in the "C" class and gets an <strong>evaluation</strong> of 3/5. In <em>AGReATWine</em> evaluations are always styled with a star after the digit.</p>
     <h3>Sources selection</h3>
     <p>Not all sources who qualify (i.e. offer a classification of grades) are used in <em>AGReATWine</em>: some are excluded for the lack of resources needed to scrape them from their original medium (website, mobile app, traditional publication, etc.); some others cannot be used because their classification is inconsistent with the others and turn out to be difficult/impossible to aggregate. Details about source selection are provided where the selection happens, which is usually at the country level.</p>
@@ -312,26 +308,17 @@
       \frac{\sum_{i=1}^{avg} x_i + (ev_5 \times 1000) + (ev_4 \times 333.3) + (ev_3 \times 111.1) + (ev_2 \times 37)}{(5\times (ev_5 \times 1000) + 5 \times (ev_4 \times 333.3) +  5  \times (ev_3 \times 111.1) + 5 \times (ev_2 \times 37))\times 100} = wa
       $$
       <p>where \(avg\) is the number of yearly average evaluations a wine has; \(ev_n\) is the number of evaluations of class \(_n\) in the same year and \(wa\) is the resulting weighted average of the wine.</p>
-      <p>The constants (1000, 333.3, 111.1 and 37) have been chosen so that a wine needs three evaluations of the lesser
-        classes to a single evaluation of the greater class. As an example, a wine with an evaluation of 3 for 2019,
-        2020, 2021, will get the same relative score of a wine with a single evaluation of 4 in any year and no other
-        evaluations. If we apply this formula to the example illustrated by the tables above, <em>Wine B</em> gets a
-        <strong>Relative Score</strong> of "2.36" while <em>Wine C</em> gets "1". This is consistent with our intuition
-        that <em>Wine B</em> should get a better evaluation since it has more reviews and the same maximum evaluation. A
-        similarly more intuitive result would be provided in other scenarios where the lack of information skewes the
-        raw average calculation.</p>
+      <p>The constants (1000, 333.3, 111.1 and 37) have been chosen so that a wine needs three evaluations of the lesser classes to a single evaluation of the greater class. As an example, a wine with an evaluation of 3 for 2019, 2020, 2021, will get the same relative score of a wine with a single evaluation of 4 in any year and no other evaluations. If we apply this formula to the example illustrated by the tables above, <em>Wine B</em> gets a <strong>Relative Score</strong> of "2.36" while <em>Wine C</em> gets "1". This is consistent with our intuition that <em>Wine B</em> should get a better evaluation since it has more reviews and the same maximum evaluation. A similarly more intuitive result would be provided in other scenarios where the lack of information skewes the raw average calculation.</p>
       <h2>The Relative Score</h2>
       <p>Le'ts go back to part 3 of the <strong>Relative Score</strong> computation:</p>
       <ol start="3">
-        <li>the weighted average is expressed in a 0-100 range, where 100 stands for the best weighted average obtained
-          by a wine in the same category as the current wine.</li>
+        <li>the weighted average is expressed in a 0-100 range, where 100 stands for the best weighted average obtained by a wine in the same category as the current wine.</li>
       </ol>
       <p>We take the weighted average and transform it to a percentage, where 100 stands for the best weighted average. A more formal version:</p>
       $$
       \frac{wa\times 5}{\underset{wa\in n}{max} f(wa)\times 100} = RS
       $$
       <p>where \(n\) is the set of all weighted averages of the wines we are ranking. The outcome of this computation is the <strong>Relative Score</strong>, which tells how a wine performs with respect of other wines of the same category, or more specifically with respect to the <strong>best</strong> wine in the same cateogory.</p>
-      <p>More documentation will be added in future releases.</p>
   </div>
 </div>
 
