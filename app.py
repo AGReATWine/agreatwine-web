@@ -29,20 +29,36 @@
 
 
 from flask import Flask, request, render_template
+import json
 import statistics
 import sqlite3
 
 app = Flask(__name__)
 
+def load_data():
+   with open('static/pages/home.json') as f:
+      data = json.load(f)
+   return data
+
 @app.route("/")
 def home():
     conn = sqlite3.connect('allwines.db')
     c = conn.cursor()
-    c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1')
+    c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1')    
     count = c.fetchone()[0]
     conn.close()
-    
-    return render_template('home.html.j2', count=count)
+
+    data = load_data()
+
+    data['body'] = data['body'].replace('{count}', str(count))
+
+    return render_template('home.html.j2', **data)
+
+@app.route("/documentation")
+def documentation():
+
+    return render_template('documentation.html.j2',)
+
 
 @app.route("/search", methods=['GET', 'POST'])
 def show_entries():

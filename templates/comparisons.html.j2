@@ -3,8 +3,12 @@
 {% block title %}
     {% if request.path == '/docg_appellations' %}
         DOCG Appellations
-    {% else %}
+    {% elif request.path == '/doc_appellations' %}
         DOC Appellations
+    {% elif request.path == '/tlc'%}
+        Varietis Comparisons
+    {% else %}
+        Regional Comparisons
     {% endif %}
 {% endblock %}
 
@@ -31,6 +35,7 @@
     {% elif request.path == '/doc_appellations'%}
         <h1 class="bd-title mb-0">DOC Appellations</h1>
         <small class="text-secondary">Number of appellations: {{ count }}</small>
+        <p>Some DOC appellations – a.k.a. <i>mixed appellations</i> – include wines from different varieties which are not directly comparable. Such DOC are splitted according to the grape variety or any other feature that allows wines to be compared fairly.</p>
         <div class="form-group mt-4 mb-0">
             <input type="text" class="form-control border-0 rounded-0 border-bottom border-danger" id="filterInput" placeholder="Filter by appellation name">
         </div>
