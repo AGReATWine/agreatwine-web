@@ -3,6 +3,48 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block content %}
+<h1>AGReATWine</h1>
+<div class="container">
+  <div class="row d-flex align-items-center">
+    <div class="col">
+      <pre class="bg-dark text-light rounded"><code>
+      <span class="text-secondary">1 |</span> <strong>A</strong><span class="text-secondary"> - </span>nother
+      <span class="text-secondary">2 |</span> <strong>G</strong><span class="text-secondary"> - </span>eeky
+      <span class="text-secondary">3 |</span> <strong>Re</strong><span class="text-secondary"> - </span>trospective
+      <span class="text-secondary">4 |</span> <strong>A</strong><span class="text-secondary"> - </span>ggregator
+      <span class="text-secondary">5 |</span> <strong>T</strong><span class="text-secondary"> - </span>ool
+      <span class="text-secondary">6 |</span> <span class="text-secondary">//for</span>
+      <span class="text-secondary">7 |</span> <strong>Wine</strong>
+      </code></pre>
+    </div>
+    <div class="col">
+    {{body}}
+    </div>
+  </div>
+</div>
+<h2>Database progress</h2>
+<div class="container m-0" style="max-width:576px" >
+  <div class="row mb-2">
+    <div class="col" style="max-width:150px">
+    DOCG Covering
+    </div>
+    <div class="col">
+      <div class="progress" style="height: 30px;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%">72%</div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col" style="max-width:150px">
+    DOC Covering
+    </div>
+    <div class="col">
+      <div class="progress" style="height: 30px;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100" style="width: 22%">22%</div>
+      </div>
+    </div>
+  </div>
+</div>
 <!--<div class="container d-flex justify-content-center">
      <div class="row">
       <div class="col">
@@ -10,6 +52,6 @@
       </div>
     </div> 
 </div>-->
-{{body}}
+
 {% endblock %}
 

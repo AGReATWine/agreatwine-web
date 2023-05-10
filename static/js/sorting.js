@@ -76,4 +76,55 @@ if (filterInput) {
   });
 }
 
+const getFilterFaq = document.getElementById('getFilterFaq');
+if (getFilterFaq) {
+  getFilterFaq.addEventListener('input', filterFaq);
+
+  function filterFaq() {
+    var filterValue = getFilterFaq.value.toLowerCase();
+    var accordionItems = document.getElementsByClassName('accordion-item');
+
+    for (var i = 0; i < accordionItems.length; i++) {
+      var accordionButton = accordionItems[i].querySelector('.accordion-button');
+      var accordionBody = accordionItems[i].querySelector('.accordion-body');
+
+      var buttonText = accordionButton.textContent;
+      var bodyText = accordionBody.textContent;
+
+      if (filterValue === '') {
+        // If filterValue is empty, remove the highlighting
+        accordionButton.innerHTML = buttonText;
+        accordionBody.innerHTML = bodyText;
+        accordionItems[i].style.display = '';
+      } else if (
+        buttonText.toLowerCase().includes(filterValue) ||
+        bodyText.toLowerCase().includes(filterValue)
+      ) {
+        // Highlight matched string in button text
+        accordionButton.innerHTML = highlightMatchedString(buttonText, filterValue);
+
+        // Highlight matched string in body text
+        accordionBody.innerHTML = highlightMatchedString(bodyText, filterValue);
+
+        accordionItems[i].style.display = '';
+      } else {
+        accordionItems[i].style.display = 'none';
+      }
+    }
+  }
+
+  function highlightMatchedString(text, filterValue) {
+    // Regex pattern to match the filterValue case-insensitively
+    var regex = new RegExp(`(${filterValue})`, 'gi');
+
+    // Wrap matched string in <mark> tags to highlight it
+    var highlightedText = text.replace(regex, '<mark>$1</mark>');
+
+    return highlightedText;
+  }
+}
+
+
+
+
 ///////////////////////////////////////////////////////

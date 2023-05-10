@@ -1,6 +1,6 @@
 {
     "title": "Home",
     "header": "<h1>Welcome to my page</h1>",
-    "body": "<p>This website aggregates and compares experts evaluations for <b>{count}</b> Italian wines over the years 2017-2023. Wines can be searched from the form or by navigating the appellations.</p> <p>You can search for an individual wine from the top search form or explore <a href='/docg_appellations'>DOCG</a>, <a href='/doc_appellations'>DOC</a>, <a href='/slc'>Varieties comparisons</a> and <a href='/tlc'>Regional comparisons</a>.</p><p>You can read about the inner workings of this website <a href='/documentation'>here</a></p>",
+    "body": "<p>This website aggregates and compares experts evaluations for <b class='text-danger'>{count}</b> Italian wines over the years 2017-2023. You can read about the inner workings in the <a href='/faq'>FAQ</a> section.</p> <p>Individual wines can be searched for from the top search form or by navigating the <a href='/docg_appellations'>DOCG</a>, <a href='/doc_appellations'>DOC</a>, <a href='/slc'>Varieties</a> and <a href='/tlc'>Regional</a> lists.</p>",
     "footer": "<p>Copyright &copy; 2023</p>"
   }

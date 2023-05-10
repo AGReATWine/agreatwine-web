@@ -1,0 +1,332 @@
+{% extends 'base.html.j2' %}
+
+{% block title %}Frequently Asked Question{% endblock %}
+
+{% block content %}
+<h1>Frequently Asked Question</h1>
+<div class="form-group mt-4 mb-2">
+    <input type="text" class="form-control border-0 rounded-0 border-bottom border-danger" id="getFilterFaq" placeholder="Filter by question">
+</div>
+
+<div class="accordion accordion-flush" id="accordionFaq">
+  <h3 class="mt-4">General questions</h3>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="h1">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1" aria-expanded="true" aria-controls="c1">
+        What is this website?
+      </button>
+    </h2>
+    <div id="c1" class="accordion-collapse collapse show" aria-labelledby="h1" data-bs-parent="#accordionFaq">
+      <div class="accordion-body">
+        <p>This website aggregates and compares experts evaluations for <b>{{count}}</b> Italian wines over the years 2017-2023. Wines can be searched from the form or by navigating the appellations.</p> 
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="h2">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2" aria-expanded="false" aria-controls="c2">
+        What is an "expert evaluation"?
+      </button>
+    </h2>
+    <div id="c2" class="accordion-collapse collapse" aria-labelledby="h2" data-bs-parent="#accordionFaq">
+      <div class="accordion-body">
+        An expert evaluation is an assessment made by a recognized wine industry expert. An expert evaluation differs from a casual evaluation in two respects: it is conducted according to a defined criterion and by a known agent. Expert evaluations are usually found in wine guides, while casual evaluations are popular on websites like Vivino.
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="h3">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3" aria-expanded="false" aria-controls="c3">
+        Is AGReatWine the same of a wine guide?
+      </button>
+    </h2>
+    <div id="c3" class="accordion-collapse collapse" aria-labelledby="h3" data-bs-parent="#accordionFaq">
+      <div class="accordion-body">
+        AGReATWine is an enhanced wine guide. As wine guides it is made by expert evaluation, but it's not limited to a single marketing year and instead aggregates wine scores from different vintages.
+      </div>
+    </div>
+  </div>
+  <h3 class="mt-4">About the Relative Score</h3>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="h4">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c4" aria-expanded="false" aria-controls="c4">
+        What is the Relative Score?
+      </button>
+    </h2>
+    <div id="c4" class="accordion-collapse collapse" aria-labelledby="h4" data-bs-parent="#accordionFaq">
+      <div class="accordion-body">
+        The <strong>Relative Score</strong>, measures the performance of a wine with respect to other comparable wines, or more specifically with respect to the best wine among those comparable.
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="h5">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c5" aria-expanded="false" aria-controls="c5">
+        How is the Relative Score calculated?
+      </button>
+    </h2>
+    <div id="c5" class="accordion-collapse collapse" aria-labelledby="h5" data-bs-parent="#accordionFaq">
+      <div class="accordion-body">
+        <p>The Relative Score is calculated by aggregating single vintage evaluations in the following way:</p>
+        <ol>
+          <li>each vintage year average evaluation is summed up with the number of reviews in each class for that same year, multiplied by a different constant for each class.</li>
+          <li>this sum of sums is averaged and weighted over the sum of number of reviews for each class multiplied by the highest possible evaluation value.</li>
+          <li>the weighted average is expressed in a 0-100 range, where 100 stands for the best weighted average obtained by a wine in the same category as the current wine.</li>
+        </ol>
+        <p>The first two steps can be written in a more formal fashion in the following way:</p>
+        $$
+        \frac{\sum_{i=1}^{avg} x_i + (ev_5 \times 1000) + (ev_4 \times 333.3) + (ev_3 \times 111.1) + (ev_2 \times 37)}{(5\times (ev_5 \times 1000) + 5 \times (ev_4 \times 333.3) +  5  \times (ev_3 \times 111.1) + 5 \times (ev_2 \times 37))\times 100} = wa
+        $$
+        <p>where \(avg\) is the number of yearly average evaluations a wine has; \(ev_n\) is the number of evaluations of class \(_n\) in the same year and \(wa\) is the resulting weighted average of the wine.</p>
+        <p>The constants (1000, 333.3, 111.1 and 37) have been chosen so that a wine needs three evaluations of the lesser classes to a single evaluation of the greater class. As an example, a wine with an evaluation of 3 for 2019, 2020, 2021, will get the same relative score of a wine with a single evaluation of 4 in any year and no other evaluations. 
+        <p>The weighted average are then transformed into percentages, where 100 stands for the best weighted average. A more formal version:</p>
+        $$
+        \frac{wa\times 5}{\underset{wa\in n}{max} f(wa)\times 100} = RS
+        $$
+        <p>where \(n\) is the set of all weighted averages of the wines we are ranking.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="h7">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c7" aria-expanded="false" aria-controls="c7">
+        What are wine evaluations and wine grades?
+      </button>
+    </h2>
+    <div id="c7" class="accordion-collapse collapse" aria-labelledby="h7" data-bs-parent="#accordionFaq">
+      <div class="accordion-body">
+        <p>A wine <strong>grade</strong> is a number from a predefined range assigned to a wine and representing its quality according to the reviewer. Robert Parker's reviewers assign grades in a range from 0 to 100, where 100 describes the best possible outcome of a review.
+        <p>A wine <strong>evaluation</strong> assigns a rating to a wine based on its grade. A made up evaluation schema could be the following one:</p>
+        <ul>
+          <li>Rate E (grade in the 0-50 range): a wine with at least one major flaw</li>
+          <li>Rate D (grade in the 51-75 range): a wine with no major flaws and no strengths</li>
+          <li>Rate C (grade in the 76-85 range): a wine with at least one major strength</li>
+          <li>Rate B (grade in the 86-92 range): a wine with at least two major strengths</li>
+          <li>Rate A (grade in the 93-100 range): a wine with at least three major strengths</li>
+        </ul>
+        <p>It does not really matter how a specific publication define "strengths" or "flaws" as long as a definition is provided or can be inferred.</p>
+        <p>Aggregating evaluations instead of grades has some advantages: (i) some reviewer only disclose evaluations, not grades and (ii)  estimating the grade from the evaluation is easier than estimating the evaluation from the grade.</p>
+      </div>
+    </div>
+  </div>
+    <div class="accordion-item">
+    <h2 class="accordion-header" id="h6">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c6" aria-expanded="false" aria-controls="c6">
+        What's the difference between the Relative Score and the arithmetic average of grades?
+      </button>
+    </h2>
+    <div id="c6" class="accordion-collapse collapse" aria-labelledby="h6" data-bs-parent="#accordionFaq">
+      <div class="accordion-body">
+        <p>Let's assume we have the following evaluations for a wine called <em>Wine A</em>:</p>
+        <table class="table table-responsive table-striped" style="max-width:400px">
+          <thead>
+            <tr>
+              <th><em>Wine A</em></th>
+              <th style="text-align: right;">Source A</th>
+              <th style="text-align: right;">Source B</th>
+              <th style="text-align: right;">Source C</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <td>2019</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">4</td>
+              <td style="text-align: right;">3</td>
+            </tr>
+            <tr>
+              <td>2020</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">3</td>
+            </tr>
+            <tr>
+              <td>2021</td>
+              <td style="text-align: right;">4</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">3</td>
+            </tr>
+          </tbody>
+        </table>
+      <p>The wine average grade is calcuted by averaging the evaluations for each vintage year and then averaging these averages:</p>
+        <table class="table table-responsive table-striped" style="max-width:400px">
+          <thead>
+            <tr>
+              <th><em>Wine A</em></th>
+              <th style="text-align: right;">Source A</th>
+              <th style="text-align: right;">Source B</th>
+              <th style="text-align: right;">Source C</th>
+              <th style="text-align: right;">Avg</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <td>2019</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">4</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">3.33</td>
+            </tr>
+            <tr>
+              <td>2020</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">3</td>
+            </tr>
+            <tr>
+              <td>2021</td>
+              <td style="text-align: right;">4</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">3.33</td>
+            </tr>
+            <tr>
+              <td colspan="4"><strong>RawAvg</strong></td>
+              <td style="text-align: right;"><strong>3.22</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      <p>To see the limitations of this this approach consider the following scenario involving <em>Wine B</em> and <em>Wine C</em>:</p>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <table class="table table-responsive table-striped" style="max-width:400px">
+                <thead>
+                  <tr>
+                    <th><em>Wine B</em></th>
+                    <th style="text-align: right;">Source A</th>
+                    <th style="text-align: right;">Source B</th>
+                    <th style="text-align: right;">Source C</th>
+                    <th style="text-align: right;">Avg</th>
+                  </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                  <tr>
+                    <td>2019</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                  </tr>
+                  <tr>
+                    <td>2019</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                  </tr>
+                  <tr>
+                    <td>2019</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                  </tr>
+                  <tr>
+                    <td>2020</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                    <td style="text-align: right;">3</td>
+                  </tr>
+                  <tr>
+                    <td>2021</td>
+                    <td style="text-align: right;">4</td>
+                    <td style="text-align: right;">4</td>
+                    <td style="text-align: right;">4</td>
+                    <td style="text-align: right;">4</td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"><strong>RawAvg</strong></td>
+                    <td style="text-align: right;"><strong>3.2</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          <div class="col">
+            <table class="table table-responsive table-striped" style="max-width:400px">
+              <thead>
+                <tr>
+                  <th><em>Wine C</em></th>
+                  <th style="text-align: right;">Source A</th>
+                  <th style="text-align: right;">Source B</th>
+                  <th style="text-align: right;">Source C</th>
+                  <th style="text-align: right;">Avg</th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider">
+                <tr>
+                  <td>2019</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">na</td>
+                </tr>
+                <tr>
+                  <td>2019</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">na</td>
+                </tr>
+                <tr>
+                  <td>2019</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">na</td>
+                </tr>
+                <tr>
+                  <td>2020</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">na</td>
+                </tr>
+                <tr>
+                  <td>2021</td>
+                  <td style="text-align: right;">4</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">-</td>
+                  <td style="text-align: right;">4</td>
+                </tr>
+                <tr>
+                  <td colspan="4"><strong>RawAvg</strong></td>
+                  <td style="text-align: right;"><strong>4</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <p>Wine C could be getting a better average grade because we lack information on many of its vintages, which of course is. In a slightly different scenario where <em>Wine B</em> has an evaluation of 3 for all the five
+        years, while <em>Wine C</em> has an evaluation of 3 for year 2021 and no evaluation for other years we would
+        still not get the expected outcome, as <em>Wine C</em> would get the same raw average of <em>Wine B</em>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script
+    type="text/javascript"
+    async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+  </script>
+  {% endblock %}
+
+
+  <h2> Wine Grades</h2>
+    <p>A wine grade is a number from a predefined range assigned to a wine and representing its quality according to the reviewer. Robert Parker's reviewers assign grades in a range from 0 to 100, where 100 describes the best possible outcome of a review. In <em>AGReATWine</em> a subset of experts publications (Robert Parker's Wine Advocate is probably the best known example of such a publication) are considered sources for grades.</p>
+    <h3>Grades, classes and evaluations</h3>
+    <p>To qualify as a source for grades a wine publication must meet the following criterion: allow for grades to be distributed over five classes according to a rule provided by the publication itself. So, for example, assuming that a publication grades wine on a 0-100 range, a possible, made-up classification could be:</p>
+    <ul>
+      <li>E (a grade in the 0-50 range): a wine with at least one major flaw</li>
+      <li>D (a grade in the 51-75 range): a wine with no major flaws and no strengths</li>
+      <li>C (a grade in the 76-85 range): a wine with at least one major strength</li>
+      <li>B (a grade in the 86-92 range): a wine with at least two major strengths</li>
+      <li>A (a grade in the 93-100 range): a wine with at least three major strengths</li>
+    </ul>
+    <p>It does not really matter how a specific publication define "strengths" or "flaws" as long as a definition is provided or can be inferred.</p>
+    <p>A given (by the reviewer) classification is needed to aggregate grades on for two reasons: (i) some reviewer only disclose the wines class and not their grade and (ii)  estimating the grade from the class is easier than estimating the class from the grade.</p>
+    <p>Assuming the above classification, a wine with a grade of 78 falls in the "C" class and gets an <strong>evaluation</strong> of 3/5. In <em>AGReATWine</em> evaluations are always styled with a star after the digit.</p>

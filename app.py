@@ -59,6 +59,16 @@ def documentation():
 
     return render_template('documentation.html.j2',)
 
+@app.route("/faq")
+def faq():
+    conn = sqlite3.connect('allwines.db')
+    c = conn.cursor()
+    c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1')    
+    count = c.fetchone()[0]
+    conn.close()
+
+    return render_template('faq.html.j2',count=count)
+
 
 @app.route("/search", methods=['GET', 'POST'])
 def show_entries():
