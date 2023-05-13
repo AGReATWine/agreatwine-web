@@ -54,6 +54,7 @@
     {% elif request.path == '/tlc'%}
         <h1 class="bd-title mb-0">Regional Comparisons</h1>
         <small class="text-secondary">Number of regional comparisons: {{ count }}</small>
+        <p>Regional comparisons are not fair in the sense advocated in this website, and are provided just for the sake of completeness and only for some (smaller) regions.</p>
         <div class="form-group mt-4 mb-0">
             <input type="text" class="form-control border-0 rounded-0 border-bottom border-danger" id="filterInput" placeholder="Filter by comparison name">
         </div>
@@ -72,6 +73,7 @@
     {% else %}
         <h1 class="bd-title mb-0">Varieties Comparisons</h1>
         <small class="text-secondary">Number of varieties comparisons: {{ count }}</small>
+        <p>Varieties comparisons aggregate wines from the same region and made with the same grape variety, but from different appellations. The idea is that two wines made in the same region and with the same grape variety should be fairly compared, even if not part of the same appellation.</p>
         <div class="form-group mt-4 mb-0">
             <input type="text" class="form-control border-0 rounded-0 border-bottom border-danger" id="filterInput" placeholder="Filter by variety name">
         </div>
