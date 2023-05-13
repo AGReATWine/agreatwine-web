@@ -2,6 +2,6 @@
     "title": "Home",
     "header": "<h1>Welcome to my page</h1>",
     "top": "<p>This website aggregates and compares expert evaluations for <b class='text-danger'>{count}</b> Italian wines over the years 2017-2023. You can read about the inner workings in the <a href='/faq'>FAQ</a> section.</p> <p>Individual wines can be searched from the top search form or by navigating the <a href='/docg_appellations'>DOCG</a>, <a href='/doc_appellations'>DOC</a>, <a href='/slc'>Varieties</a> and <a href='/tlc'>Regional</a> lists.</p>",
-    "body": "<p class='text-danger'>In the current version, the website is just a web interface to the AGReATWine database, many features and disabled or not working.</p><p>For any question, use the <a href='https://github.com/d-cmst/agreatwine-web'>GitHub public repo </a></p>",
+    "body": "<p class='text-danger'>In the current version, the website is just a web interface to the AGReATWine database, many features are disabled or not working.</p><p>For any question, use the <a href='https://github.com/d-cmst/agreatwine-web'>GitHub public repo </a></p>",
     "footer": "<p>Copyright &copy; 2023</p>"
   }
