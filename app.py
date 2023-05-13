@@ -50,7 +50,7 @@ def home():
 
     data = load_data()
 
-    data['body'] = data['body'].replace('{count}', str(count))
+    data['top'] = data['top'].replace('{count}', str(count))
 
     return render_template('home.html.j2', **data)
 
