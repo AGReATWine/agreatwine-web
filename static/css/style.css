@@ -6,3 +6,7 @@
     --bs-accordion-active-bg: #DC3545!important;
     --bs-accordion-active-color: white!important;
 }
+
+.mjx-chtml.MJXc-display{
+    overflow-x: scroll
+}
