@@ -240,12 +240,12 @@ def show_comparison(comparison):
     conn = sqlite3.connect('allwines.db')
     c = conn.cursor()
 
-    c.execute('SELECT DISTINCT WineType FROM allwines WHERE Entry = 1 AND AppellationName = ?', (comparison.replace("-", " "),))
+    c.execute('SELECT DISTINCT WineType FROM allwines WHERE Entry = 1 AND SLC = ?', (comparison.replace("-", " "),))
     wine_types = [row[0] for row in c.fetchall()]
 
     count_per_wine_type = {}
     for wine_type in wine_types:
-        c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1 AND AppellationName = ? AND WineType = ?', (comparison.replace("-", " "), wine_type))
+        c.execute('SELECT COUNT(*) FROM allwines WHERE SLC = ? AND WineType = ? AND Entry = 1', (comparison.replace("-", " "), wine_type))
         count_per_wine_type[wine_type] = c.fetchone()[0]
 
     c.execute('SELECT FullName, WineryName FROM allwines WHERE Entry = 1 AND SLC = ?', (comparison,))
@@ -263,12 +263,12 @@ def show_regional(regional):
     conn = sqlite3.connect('allwines.db')
     c = conn.cursor()
 
-    c.execute('SELECT DISTINCT WineType FROM allwines WHERE Entry = 1 AND AppellationName = ?', (regional.replace("-", " "),))
+    c.execute('SELECT DISTINCT WineType FROM allwines WHERE Entry = 1 AND TLC = ?', (regional.replace("-", " "),))
     wine_types = [row[0] for row in c.fetchall()]
 
     count_per_wine_type = {}
     for wine_type in wine_types:
-        c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1 AND AppellationName = ? AND WineType = ?', (regional.replace("-", " "), wine_type))
+        c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1 AND TCL = ? AND WineType = ?', (regional.replace("-", " "), wine_type))
         count_per_wine_type[wine_type] = c.fetchone()[0]
 
     c.execute('SELECT FullName, WineryName FROM allwines WHERE Entry = 1 AND TLC = ?', (regional,))

@@ -52,7 +52,13 @@
                                 <div class="container text-left ps-0 mt-1">
                                     <div class="row mb-1">
                                         <div class="col-1">
-                                            <div>RS</div>
+                                            {% if '/comparisons' in request.path %}
+                                                <div>RS²</div>
+                                            {% elif '/regional' in request.path %}
+                                                <div>RS³</div>
+                                            {% else %}
+                                                <div>RS</div>
+                                            {% endif %}
                                         </div>
                                         <div class="col">
                                             <div class="progress" style="height: 20px;">

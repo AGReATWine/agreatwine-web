@@ -6,9 +6,9 @@
     {% elif request.path == '/doc_appellations' %}
         DOC Appellations
     {% elif request.path == '/tlc'%}
-        Varietis Comparisons
-    {% else %}
         Regional Comparisons
+    {% else %}
+        Varietis Comparisons
     {% endif %}
 {% endblock %}
 
@@ -23,7 +23,7 @@
         <div class="list-group mt-4">
             {% set counter = 1 %}
             {% for appellation_name, region in appellations %}
-                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_appellation', appellation_name=appellation_name.replace(" ", "-")) }}" data-name="{{ appellation_name }}">
+                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_appellation', appellation_name=appellation_name) }}" data-name="{{ appellation_name }}">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1 text-nowrap" style="overflow-x: hidden; text-overflow: ellipsis; max-width: 90%;">{{ appellation_name }}</h5>
                         <span class="badge bg-danger pt-2">{{ counts[loop.index-1] }}</span>
@@ -42,7 +42,7 @@
         <div class="list-group mt-4">
             {% set counter = 1 %}
             {% for appellation_name, region in appellations %}
-                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_appellation', appellation_name=appellation_name.replace(" ", "-")) }}" data-name="{{ appellation_name }}">
+                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_appellation', appellation_name=appellation_name) }}" data-name="{{ appellation_name }}">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1 text-nowrap" style="overflow-x: hidden; text-overflow: ellipsis; max-width: 90%;">{{ appellation_name }}</h5>
                         <span class="badge bg-danger bg-danger pt-2">{{ counts[loop.index-1] }}</span>
@@ -61,7 +61,7 @@
         <div class="list-group mt-4">
             {% set counter = 1 %}
             {% for appellation_name, region in appellations %}
-                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_regional', regional=appellation_name.replace(" ", "-")) }}" data-name="{{ appellation_name }}">
+                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_regional', regional=appellation_name) }}" data-name="{{ appellation_name }}">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1 text-nowrap" style="overflow-x: hidden; text-overflow: ellipsis; max-width: 90%;">{{ appellation_name }}</h5>
                         <span class="badge bg-danger bg-danger pt-2">{{ counts[loop.index-1] }}</span>
@@ -80,7 +80,7 @@
         <div class="list-group mt-4">
             {% set counter = 1 %}
             {% for appellation_name, region in appellations %}
-                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_comparison', comparison=appellation_name.replace(" ", "-")) }}" data-name="{{ appellation_name }}">
+                <a class="list-group-item border-end-0 border-start-0 rounded-0 list-group-item-action" href="{{ url_for('show_comparison', comparison=appellation_name) }}" data-name="{{ appellation_name }}">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1 text-nowrap" style="overflow-x: hidden; text-overflow: ellipsis; max-width: 90%;">{{ appellation_name }}</h5>
                         <span class="badge bg-danger bg-danger pt-2">{{ counts[loop.index-1] }}</span>
