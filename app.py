@@ -32,6 +32,7 @@ from flask import Flask, request, render_template
 import json
 import statistics
 import sqlite3
+import numpy as np
 
 app = Flask(__name__)
 
@@ -168,6 +169,19 @@ def show_wine():
     c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC FROM allwines WHERE AppellationName = ? AND Entry = 2', (wine_data[3],))
     appellation_data = c.fetchall()
 
+    # standard deviation
+    ## fetch the list of 1-entries
+    c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC FROM allwines WHERE AppellationName = ? AND Entry = 1', (wine_data[3],))
+    std_data = c.fetchall()
+    ## RS array
+    rs_array = np.array([row[6] for row in std_data])
+    ## avg
+    rs_avg = np.mean(rs_array)
+    ## STD
+    rs_std = np.std(rs_array)
+    ##
+    
+
     # Get minimum and maximum values of price
     prices = [row[9] for row in appellation_data]
     minmax = [min(prices), max(prices)]
@@ -190,7 +204,7 @@ def show_wine():
 
     conn.close()
 
-    return render_template('wine.html.j2', wine_data=wine_data, vintages_data=vintages_data, appellation_data=appellation_data, medians=medians, minmax=minmax, appellation_name=appellation_name, winery_name=winery_name, perc_rs_value=perc_rs_value, perc_qp_value=perc_qp_value, perc_rs2_value=perc_rs2_value, perc_rs3_value=perc_rs3_value, wine_type_count=wine_type_count, wine_slc_count=wine_slc_count, wine_tlc_count=wine_tlc_count)
+    return render_template('wine.html.j2', wine_data=wine_data, vintages_data=vintages_data, appellation_data=appellation_data, medians=medians, minmax=minmax, appellation_name=appellation_name, winery_name=winery_name, perc_rs_value=perc_rs_value, perc_qp_value=perc_qp_value, perc_rs2_value=perc_rs2_value, perc_rs3_value=perc_rs3_value, wine_type_count=wine_type_count, wine_slc_count=wine_slc_count, wine_tlc_count=wine_tlc_count, rs_std=rs_std, rs_avg=rs_avg)
 
 @app.route("/winery/<winery_name>")
 def show_winery(winery_name):

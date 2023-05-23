@@ -1,8 +1,8 @@
 {% extends 'base.html.j2' %}
-
 {% block title %} {{ wine_data[0] }} – {{ wine_data[1] }}{% endblock %}
 
 {% block content %}
+    {% set rs_z_score = (wine_data[6] - rs_avg) / rs_std %}
     <h1>{{ wine_data[0] }}</h1>
     <h2 class="text-danger"><i class="fa fa-list"></i> Details</h2>
     <div class="container-sm" style="max-width:540px;margin-left:0px">
@@ -61,7 +61,7 @@
             </div>
             <div class="col">
                 <div class="progress" style="height: 20px;">
-                    <div class="sort-value progress-bar progress-bar-striped {% if perc_rs_value >= 75 and perc_rs_value <= 89 %}bg-success{% elif perc_rs_value >= 25 and perc_rs_value <= 74 %}bg-warning{% elif perc_rs_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine_data[6] }}%"></div>
+                    <div class="sort-value progress-bar progress-bar-striped {% if perc_rs_value >= 75 and perc_rs_value <= 89 %}bg-success{% elif perc_rs_value >= 25 and perc_rs_value <= 74 %}bg-warning{% elif perc_rs_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine_data[6] }}%"><strong>{{'{:.2f}'.format(rs_z_score)}}</strong></div>
                 </div>
             </div>
             <div class="col-3 pe-0">
