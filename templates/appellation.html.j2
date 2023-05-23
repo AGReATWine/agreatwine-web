@@ -25,6 +25,7 @@
             <h4 class="sort-action mt-4 mb-4" id="{{ value }}">{{ value }} <i class="text-primary sort-btn float-end fa-solid fa-sort"></i> <span class="float-end pe-1">RS</span></h4>
             <div class="container sorting-group ps-0 pe-0">
                 {% for entry in group %} 
+                {% set pairings_formatted = entry[5].replace('nd', '').replace('–', '').replace('    ', ' – ').replace('   ', ' – ').replace('  ', ' – ').lstrip('– ').rstrip(' –') %}
                 {% if '/comparisons' in request.path %}
                     {% if entry[15] == 0 %}
                         {% set entry_15 = 0.1 %}
@@ -54,7 +55,7 @@
                                     <h5 class="mb-1 text-danger">{{ entry[0] }}</h5>
                                 </div>
                                 <small class="mb-1"><b>{{entry[1]}}</b> | {{entry[2]}} {{entry[3]}} | {{entry[4]}} </small>
-                                <small style="display:block; line-height:1.2; max-height: 2.4em; overflow: hidden; text-overflow: ellipsis">{{entry[5].replace('nd', '').rstrip(' –')}}</small>
+                                <small style="display:block; line-height:1.2; max-height: 2.4em; overflow: hidden; text-overflow: ellipsis">{{pairings_formatted}}</small>
                                 <div class="container text-left ps-0 mt-1">
                                     <div class="row mb-1">
                                         <div class="col-1">
