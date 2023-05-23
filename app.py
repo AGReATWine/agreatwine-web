@@ -221,12 +221,23 @@ def show_winery(winery_name):
         c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1 AND AppellationName = ? AND WineType = ?', (appellation_name, wine_type))
         count = c.fetchone()[0]
         wine_counts.append(count)
+        # standard deviation
+        ## fetch the list of 1-entries
+        c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC FROM allwines WHERE AppellationName = ? AND Entry = 1', (appellation_name,))
+        std_data = c.fetchall()
+        ## RS array
+        rs_array = np.array([row[6] for row in std_data])
+        ## avg
+        rs_avg = np.mean(rs_array)
+        ## STD
+        rs_std = np.std(rs_array)
+        ##
 
     conn.close()
 
     count = len(winery_wines)
 
-    return render_template('winery.html.j2', winery_name=winery_name, count=count, winery_wines=winery_wines, wine_counts=wine_counts)
+    return render_template('winery.html.j2', winery_name=winery_name, count=count, winery_wines=winery_wines, wine_counts=wine_counts, rs_avg=rs_avg,rs_std=rs_std)
 
 @app.route("/appellations/<appellation_name>")
 def show_appellation(appellation_name):
@@ -245,9 +256,18 @@ def show_appellation(appellation_name):
     entries = c.fetchall()
     conn.close()
 
+    # standard deviation
+    ## RS array
+    rs_array = np.array([row[6] for row in entries])
+    ## avg
+    rs_avg = np.mean(rs_array)
+    ## STD
+    rs_std = np.std(rs_array)
+    ##
+
     count = len(entries)
 
-    return render_template('appellation.html.j2', appellation_name=appellation_name, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type)
+    return render_template('appellation.html.j2', appellation_name=appellation_name, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_avg=rs_avg, rs_std=rs_std)
 
 @app.route("/comparisons/<comparison>")
 def show_comparison(comparison):

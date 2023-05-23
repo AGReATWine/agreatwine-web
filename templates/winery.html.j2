@@ -13,6 +13,7 @@
 {% for wine in winery_wines%}
 {% set perc_rs_value = ((wine[6]-wine[8]+1)/wine[6]*100) %}
 {% set perc_qp_value = ((wine[7]-wine[27]+1)/wine[7]*100) %}
+{% set rs_z_score = '{:.2f}'.format((wine[6] - rs_avg) / rs_std) %}
         <div class="container sorting-group ps-0 pe-0 mt-2">
                     <div class="list-group sorting-element">
                         <a  href="{{ url_for('show_wine', fullname=wine[0], wineryname=wine[1]) }}" class="list-group-item list-group-item-action pe-0">
@@ -28,7 +29,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="progress" style="height: 20px;">
-                                            <div class="sort-value progress-bar progress-bar-striped {% if perc_rs_value >= 75 and perc_rs_value <= 89 %}bg-success{% elif perc_rs_value >= 25 and perc_rs_value <= 74 %}bg-warning{% elif perc_rs_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine[6] }}%"></div>
+                                            <div class="sort-value progress-bar progress-bar-striped {% if perc_rs_value >= 75 and perc_rs_value <= 89 %}bg-success{% elif perc_rs_value >= 25 and perc_rs_value <= 74 %}bg-warning{% elif perc_rs_value <= 24 %}bg-danger{% endif %}" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100" style="width: {{ wine[6] }}%">{{rs_z_score}}</div>
                                         </div>
                                     </div>
                                     <div class="col-3 pe-0">
