@@ -118,7 +118,7 @@ def show_entries():
 #     c.execute('SELECT FullName, WineryName FROM allwines WHERE Entry = 1')
 #     entries = c.fetchall()
 #     conn.close()
-
+#     back to safety
 #     count = len(entries)
 #     return render_template('home.html.j2', entries=entries, count=count, search_query='')
     
