@@ -186,8 +186,8 @@ def show_wine():
     ##
     ## RS3 array
     rs3_array = np.array([row[17] for row in std_data])
-    rs3_avg = np.mean(rs2_array) ## avg
-    rs3_std = np.std(rs2_array) ## STD
+    rs3_avg = np.mean(rs3_array) ## avg
+    rs3_std = np.std(rs3_array) ## STD
     
 
     # Get minimum and maximum values of price
@@ -235,9 +235,7 @@ def show_winery(winery_name):
         std_data = c.fetchall()
         ## RS array
         rs_array = np.array([row[6] for row in std_data])
-        ## avg
         rs_avg = np.mean(rs_array)
-        ## STD
         rs_std = np.std(rs_array)
         ##
 
@@ -267,15 +265,22 @@ def show_appellation(appellation_name):
     # standard deviation
     ## RS array
     rs_array = np.array([row[6] for row in entries])
-    ## avg
     rs_avg = np.mean(rs_array)
-    ## STD
     rs_std = np.std(rs_array)
     ##
+    ## RS2 array
+    rs2_array = np.array([row[15] for row in entries])
+    rs2_avg = np.mean(rs2_array) ## avg
+    rs2_std = np.std(rs2_array) ## STD
+    ##
+    ## RS3 array
+    rs3_array = np.array([row[17] for row in entries])
+    rs3_avg = np.mean(rs3_array) ## avg
+    rs3_std = np.std(rs3_array) ## STD
 
     count = len(entries)
 
-    return render_template('appellation.html.j2', appellation_name=appellation_name, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_avg=rs_avg, rs_std=rs_std)
+    return render_template('appellation.html.j2', appellation_name=appellation_name, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_avg=rs_avg, rs_std=rs_std, rs2_std=rs2_std, rs2_avg=rs2_avg, rs3_std=rs3_std, rs3_avg=rs3_avg)
 
 @app.route("/comparisons/<comparison>")
 def show_comparison(comparison):
@@ -296,9 +301,65 @@ def show_comparison(comparison):
     entries = c.fetchall()
     conn.close()
 
+    # standard deviation
+    ## RS array
+    rs_array = np.array([row[6] for row in entries])
+    rs_avg = np.mean(rs_array)
+    rs_std = np.std(rs_array)
+    ##
+    ## RS2 array
+    rs2_array = np.array([row[15] for row in entries])
+    rs2_avg = np.mean(rs2_array) ## avg
+    rs2_std = np.std(rs2_array) ## STD
+    ##
+    ## RS3 array
+    rs3_array = np.array([row[17] for row in entries])
+    rs3_avg = np.mean(rs3_array) ## avg
+    rs3_std = np.std(rs3_array) ## STD
+
     count = len(entries)
 
-    return render_template('appellation.html.j2', comparison=comparison, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type)
+    return render_template('appellation.html.j2', comparison=comparison, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_avg=rs_avg, rs_std=rs_std, rs2_std=rs2_std, rs2_avg=rs2_avg, rs3_std=rs3_std, rs3_avg=rs3_avg)
+
+# @app.route("/regional/<regional>")
+# def show_regional(regional):
+#     conn = sqlite3.connect('allwines.db')
+#     c = conn.cursor()
+
+#     c.execute('SELECT DISTINCT WineType FROM allwines WHERE Entry = 1 AND TLC = ?', (regional.replace("-", " "),))
+#     wine_types = [row[0] for row in c.fetchall()]
+
+#     count_per_wine_type = {}
+#     for wine_type in wine_types:
+#         c.execute('SELECT COUNT(*) FROM allwines WHERE TLC = ? AND WineType = ? AND Entry = 1', (regional.replace("-", " "), wine_type))
+#         count_per_wine_type[wine_type] = c.fetchone()[0]
+
+#     c.execute('SELECT FullName, WineryName FROM allwines WHERE Entry = 1 AND TLC = ?', (regional,))
+#     wine_types = [row[0] for row in c.fetchall()]
+#     # c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC, QPRANK FROM allwines WHERE Entry = 1 AND TLC = ?', (regional.replace("-", " "),))
+#     c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC, QPRANK FROM allwines WHERE Entry = 1 AND TLC = ?', (regional.replace("-", " "),))
+#     entries = c.fetchall()
+#     conn.close()
+
+#      # standard deviation
+#     ## RS array
+#     rs_array = np.array([row[6] for row in entries])
+#     rs_avg = np.mean(rs_array)
+#     rs_std = np.std(rs_array)
+#     ##
+#     ## RS2 array
+#     rs2_array = np.array([row[15] for row in entries])
+#     rs2_avg = np.mean(rs2_array) ## avg
+#     rs2_std = np.std(rs2_array) ## STD
+#     ##
+#     ## RS3 array
+#     rs3_array = np.array([row[17] for row in entries])
+#     rs3_avg = np.mean(rs3_array) ## avg
+#     rs3_std = np.std(rs3_array) ## STD
+
+#     count = len(entries)
+
+#     return render_template('appellation.html.j2', regional=regional, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_avg=rs_avg, rs_std=rs_std, rs2_std=rs2_std, rs2_avg=rs2_avg, rs3_std=rs3_std, rs3_avg=rs3_avg)
 
 @app.route("/regional/<regional>")
 def show_regional(regional):
@@ -310,18 +371,34 @@ def show_regional(regional):
 
     count_per_wine_type = {}
     for wine_type in wine_types:
-        c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1 AND TCL = ? AND WineType = ?', (regional.replace("-", " "), wine_type))
+        c.execute('SELECT COUNT(*) FROM allwines WHERE TLC = ? AND WineType = ? AND Entry = 1', (regional.replace("-", " "), wine_type))
         count_per_wine_type[wine_type] = c.fetchone()[0]
 
     c.execute('SELECT FullName, WineryName FROM allwines WHERE Entry = 1 AND TLC = ?', (regional,))
     wine_types = [row[0] for row in c.fetchall()]
-    c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS3, QP3, Rank, Price, EvaluationAvg, WineType FROM allwines WHERE Entry = 1 AND TLC = ?', (regional.replace("-", " "),))
+    c.execute('SELECT FullName, WineryName, AppellationLevel, AppellationName, Region, Pairing, RS, QP, Rank, Price, EvaluationAvg, WineType, Grapes, AgingMonths, AgingType, RS2, QP2, RS3, QP3, RANK2, RANK3, RatingYear, Vintage, ScoreAvg, Tasting, SLC, TLC, QPRANK FROM allwines WHERE Entry = 1 AND TLC = ?', (regional.replace("-", " "),))
     entries = c.fetchall()
     conn.close()
 
+    # standard deviation
+    ## RS array
+    rs_array = np.array([row[6] for row in entries])
+    rs_avg = np.mean(rs_array)
+    rs_std = np.std(rs_array)
+    ##
+    # ## RS2 array
+    # rs2_array = np.array([row[15] for row in entries])
+    # rs2_avg = np.mean(rs2_array) ## avg
+    # rs2_std = np.std(rs2_array) ## STD
+    # ##
+    ## RS3 array
+    rs3_array = np.array([row[17] for row in entries])
+    rs3_avg = np.mean(rs3_array) ## avg
+    rs3_std = np.std(rs3_array) ## STD
+
     count = len(entries)
 
-    return render_template('appellation.html.j2', regional=regional, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type)
+    return render_template('appellation.html.j2', regional=regional, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_avg=rs_avg, rs_std=rs_std, rs3_std=rs3_std, rs3_avg=rs3_avg)
 
 @app.route("/docg_appellations")
 def docg_appellations():
