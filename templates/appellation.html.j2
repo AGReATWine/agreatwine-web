@@ -37,12 +37,12 @@
                     {% set width_from_rs = entry_15 %}
                     {% set perc_rs_value= ((entry_15-entry[19]+1)/entry_15*100) %}
                     {% set perc_qp_value = ((entry_7-entry[27]+1)/entry_7*100) %}
-                    {% set rs_z_score = '' %}
+                    {% set rs_z_score = '{:.2f}'.format((entry[15] - rs2_avg) / rs2_std) %}
                 {% elif '/regional' in request.path %}
                     {% set width_from_rs = entry[17] %}
                     {% set perc_rs_value= ((entry[17]-entry[20]+1)/entry[17]*100) %}
                     {% set perc_qp_value = ((entry[7]-entry[27]+1)/entry[7]*100) %}
-                    {% set rs_z_score = '' %}
+                    {% set rs_z_score = '{:.2f}'.format((entry[17] - rs3_avg) / rs3_std) %}
                 {% else %}
                     {% set width_from_rs = entry[6] %}
                     {% set perc_rs_value = ((entry[6]-entry[8]+1)/entry[6]*100) %}

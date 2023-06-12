@@ -176,11 +176,18 @@ def show_wine():
     std_data = c.fetchall()
     ## RS array
     rs_array = np.array([row[6] for row in std_data])
-    ## avg
-    rs_avg = np.mean(rs_array)
-    ## STD
-    rs_std = np.std(rs_array)
+    rs_avg = np.mean(rs_array) ## avg
+    rs_std = np.std(rs_array) ## STD
     ##
+    ## RS2 array
+    rs2_array = np.array([row[15] for row in std_data])
+    rs2_avg = np.mean(rs2_array) ## avg
+    rs2_std = np.std(rs2_array) ## STD
+    ##
+    ## RS3 array
+    rs3_array = np.array([row[17] for row in std_data])
+    rs3_avg = np.mean(rs2_array) ## avg
+    rs3_std = np.std(rs2_array) ## STD
     
 
     # Get minimum and maximum values of price
@@ -205,7 +212,7 @@ def show_wine():
 
     conn.close()
 
-    return render_template('wine.html.j2', wine_data=wine_data, vintages_data=vintages_data, appellation_data=appellation_data, medians=medians, minmax=minmax, appellation_name=appellation_name, winery_name=winery_name, perc_rs_value=perc_rs_value, perc_qp_value=perc_qp_value, perc_rs2_value=perc_rs2_value, perc_rs3_value=perc_rs3_value, wine_type_count=wine_type_count, wine_slc_count=wine_slc_count, wine_tlc_count=wine_tlc_count, rs_std=rs_std, rs_avg=rs_avg)
+    return render_template('wine.html.j2', wine_data=wine_data, vintages_data=vintages_data, appellation_data=appellation_data, medians=medians, minmax=minmax, appellation_name=appellation_name, winery_name=winery_name, perc_rs_value=perc_rs_value, perc_qp_value=perc_qp_value, perc_rs2_value=perc_rs2_value, perc_rs3_value=perc_rs3_value, wine_type_count=wine_type_count, wine_slc_count=wine_slc_count, wine_tlc_count=wine_tlc_count, rs_std=rs_std, rs_avg=rs_avg, rs2_std=rs2_std, rs2_avg=rs2_avg, rs3_std=rs3_std, rs3_avg=rs3_avg)
 
 @app.route("/winery/<winery_name>")
 def show_winery(winery_name):
