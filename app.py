@@ -95,11 +95,12 @@ def show_entries():
 
         for entry in entries:
             appellation_name = entry[3]  # index 3 is the AppellationName column in the database
+            wine_type = entry[11]  # index 3 is the AppellationName column in the database
 
             # execute SQL query to get the count of entries with the same AppellationName
             conn = sqlite3.connect('allwines.db')
             c = conn.cursor()
-            c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1 AND AppellationName = ?', (appellation_name,))
+            c.execute('SELECT COUNT(*) FROM allwines WHERE Entry = 1 AND AppellationName = ? AND WineType = ?', (appellation_name, wine_type))
             count = c.fetchone()[0]  # fetchone returns a tuple, but we only want the count value (index 0)
             conn.close()
 
