@@ -313,13 +313,13 @@ def show_comparison(comparison):
     rs2_std = np.std(rs2_array) ## STD
     ##
     ## RS3 array
-    rs3_array = np.array([row[17] for row in entries])
-    rs3_avg = np.mean(rs3_array) ## avg
-    rs3_std = np.std(rs3_array) ## STD
+    # rs3_array = np.array([row[17] for row in entries])
+    # rs3_avg = np.mean(rs3_array) ## avg
+    # rs3_std = np.std(rs3_array) ## STD
 
     count = len(entries)
 
-    return render_template('appellation.html.j2', comparison=comparison, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_avg=rs_avg, rs_std=rs_std, rs2_std=rs2_std, rs2_avg=rs2_avg, rs3_std=rs3_std, rs3_avg=rs3_avg)
+    return render_template('appellation.html.j2', comparison=comparison, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_avg=rs_avg, rs_std=rs_std, rs2_std=rs2_std, rs2_avg=rs2_avg)
 
 # @app.route("/regional/<regional>")
 # def show_regional(regional):
