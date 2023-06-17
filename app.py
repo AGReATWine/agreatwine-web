@@ -180,14 +180,22 @@ def show_wine():
     rs_std = np.std(rs_array) ## STD
     ##
     ## RS2 array
-    rs2_array = np.array([row[15] for row in std_data])
-    rs2_avg = np.mean(rs2_array) ## avg
-    rs2_std = np.std(rs2_array) ## STD
+    rs2_array = [row[15] for row in std_data if row[15] != '']
+    if rs2_array:
+        rs2_array = np.array(rs2_array)
+        rs2_avg = np.mean(rs2_array) ## avg
+        rs2_std = np.std(rs2_array) ## STD
+    else:
+        rs2_array = rs2_avg = rs2_std = ''
     ##
     ## RS3 array
-    rs3_array = np.array([row[17] for row in std_data])
-    rs3_avg = np.mean(rs3_array) ## avg
-    rs3_std = np.std(rs3_array) ## STD
+    rs3_array = [row[17] for row in std_data if row[17] != '']
+    if rs3_array:
+        rs3_array = np.array(rs3_array)
+        rs3_avg = np.mean(rs3_array) ## avg
+        rs3_std = np.std(rs3_array) ## STD
+    else:
+        rs3_array = rs3_avg = rs3_std = ''
     
 
     # Get minimum and maximum values of price
@@ -269,18 +277,26 @@ def show_appellation(appellation_name):
     rs_std = np.std(rs_array)
     ##
     ## RS2 array
-    rs2_array = np.array([row[15] for row in entries])
-    rs2_avg = np.mean(rs2_array) ## avg
-    rs2_std = np.std(rs2_array) ## STD
+    rs2_array = [row[15] for row in std_data if row[15] != '']
+    if rs2_array:
+        rs2_array = np.array(rs2_array)
+        rs2_avg = np.mean(rs2_array) ## avg
+        rs2_std = np.std(rs2_array) ## STD
+    else:
+        rs2_array = rs2_avg = rs2_std = ''
     ##
     ## RS3 array
-    rs3_array = np.array([row[17] for row in entries])
-    rs3_avg = np.mean(rs3_array) ## avg
-    rs3_std = np.std(rs3_array) ## STD
+    rs3_array = [row[17] for row in std_data if row[17] != '']
+    if rs3_array:
+        rs3_array = np.array(rs3_array)
+        rs3_avg = np.mean(rs3_array) ## avg
+        rs3_std = np.std(rs3_array) ## STD
+    else:
+        rs3_array = rs3_avg = rs3_std = ''
 
     count = len(entries)
 
-    return render_template('appellation.html.j2', appellation_name=appellation_name, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_avg=rs_avg, rs_std=rs_std, rs2_std=rs2_std, rs2_avg=rs2_avg, rs3_std=rs3_std, rs3_avg=rs3_avg)
+    return render_template('appellation.html.j2', appellation_name=appellation_name, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_std=rs_std, rs_avg=rs_avg, rs2_std=rs2_std, rs2_avg=rs2_avg, rs3_std=rs3_std, rs3_avg=rs3_avg)
 
 @app.route("/comparisons/<comparison>")
 def show_comparison(comparison):
@@ -308,18 +324,26 @@ def show_comparison(comparison):
     rs_std = np.std(rs_array)
     ##
     ## RS2 array
-    rs2_array = np.array([row[15] for row in entries])
-    rs2_avg = np.mean(rs2_array) ## avg
-    rs2_std = np.std(rs2_array) ## STD
+    rs2_array = [row[15] for row in std_data if row[15] != '']
+    if rs2_array:
+        rs2_array = np.array(rs2_array)
+        rs2_avg = np.mean(rs2_array) ## avg
+        rs2_std = np.std(rs2_array) ## STD
+    else:
+        rs2_array = rs2_avg = rs2_std = ''
     ##
     ## RS3 array
-    # rs3_array = np.array([row[17] for row in entries])
-    # rs3_avg = np.mean(rs3_array) ## avg
-    # rs3_std = np.std(rs3_array) ## STD
+    rs3_array = [row[17] for row in std_data if row[17] != '']
+    if rs3_array:
+        rs3_array = np.array(rs3_array)
+        rs3_avg = np.mean(rs3_array) ## avg
+        rs3_std = np.std(rs3_array) ## STD
+    else:
+        rs3_array = rs3_avg = rs3_std = ''
 
     count = len(entries)
 
-    return render_template('appellation.html.j2', comparison=comparison, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_avg=rs_avg, rs_std=rs_std, rs2_std=rs2_std, rs2_avg=rs2_avg)
+    return render_template('appellation.html.j2', comparison=comparison, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_std=rs_std, rs_avg=rs_avg, rs2_std=rs2_std, rs2_avg=rs2_avg, rs3_std=rs3_std, rs3_avg=rs3_avg)
 
 # @app.route("/regional/<regional>")
 # def show_regional(regional):
@@ -387,18 +411,27 @@ def show_regional(regional):
     rs_std = np.std(rs_array)
     ##
     # ## RS2 array
-    # rs2_array = np.array([row[15] for row in entries])
-    # rs2_avg = np.mean(rs2_array) ## avg
-    # rs2_std = np.std(rs2_array) ## STD
-    # ##
+    ## RS2 array
+    rs2_array = [row[15] for row in std_data if row[15] != '']
+    if rs2_array:
+        rs2_array = np.array(rs2_array)
+        rs2_avg = np.mean(rs2_array) ## avg
+        rs2_std = np.std(rs2_array) ## STD
+    else:
+        rs2_array = rs2_avg = rs2_std = ''
+    ##
     ## RS3 array
-    rs3_array = np.array([row[17] for row in entries])
-    rs3_avg = np.mean(rs3_array) ## avg
-    rs3_std = np.std(rs3_array) ## STD
+    rs3_array = [row[17] for row in std_data if row[17] != '']
+    if rs3_array:
+        rs3_array = np.array(rs3_array)
+        rs3_avg = np.mean(rs3_array) ## avg
+        rs3_std = np.std(rs3_array) ## STD
+    else:
+        rs3_array = rs3_avg = rs3_std = ''
 
     count = len(entries)
 
-    return render_template('appellation.html.j2', regional=regional, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_avg=rs_avg, rs_std=rs_std, rs3_std=rs3_std, rs3_avg=rs3_avg)
+    return render_template('appellation.html.j2', regional=regional, count=count, entries=entries, wine_types=wine_types, count_per_wine_type=count_per_wine_type, rs_std=rs_std, rs_avg=rs_avg, rs2_std=rs2_std, rs2_avg=rs2_avg, rs3_std=rs3_std, rs3_avg=rs3_avg)
 
 @app.route("/docg_appellations")
 def docg_appellations():
