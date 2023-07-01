@@ -277,7 +277,7 @@ def show_appellation(appellation_name):
     rs_std = np.std(rs_array)
     ##
     ## RS2 array
-    rs2_array = [row[15] for row in std_data if row[15] != '']
+    rs2_array = [row[15] for row in entries if row[15] != '']
     if rs2_array:
         rs2_array = np.array(rs2_array)
         rs2_avg = np.mean(rs2_array) ## avg
@@ -286,7 +286,7 @@ def show_appellation(appellation_name):
         rs2_array = rs2_avg = rs2_std = ''
     ##
     ## RS3 array
-    rs3_array = [row[17] for row in std_data if row[17] != '']
+    rs3_array = [row[17] for row in entries if row[17] != '']
     if rs3_array:
         rs3_array = np.array(rs3_array)
         rs3_avg = np.mean(rs3_array) ## avg
@@ -324,7 +324,7 @@ def show_comparison(comparison):
     rs_std = np.std(rs_array)
     ##
     ## RS2 array
-    rs2_array = [row[15] for row in std_data if row[15] != '']
+    rs2_array = [row[15] for row in entries if row[15] != '']
     if rs2_array:
         rs2_array = np.array(rs2_array)
         rs2_avg = np.mean(rs2_array) ## avg
@@ -333,7 +333,7 @@ def show_comparison(comparison):
         rs2_array = rs2_avg = rs2_std = ''
     ##
     ## RS3 array
-    rs3_array = [row[17] for row in std_data if row[17] != '']
+    rs3_array = [row[17] for row in entries if row[17] != '']
     if rs3_array:
         rs3_array = np.array(rs3_array)
         rs3_avg = np.mean(rs3_array) ## avg
@@ -412,7 +412,7 @@ def show_regional(regional):
     ##
     # ## RS2 array
     ## RS2 array
-    rs2_array = [row[15] for row in std_data if row[15] != '']
+    rs2_array = [row[15] for row in entries if row[15] != '']
     if rs2_array:
         rs2_array = np.array(rs2_array)
         rs2_avg = np.mean(rs2_array) ## avg
@@ -421,7 +421,7 @@ def show_regional(regional):
         rs2_array = rs2_avg = rs2_std = ''
     ##
     ## RS3 array
-    rs3_array = [row[17] for row in std_data if row[17] != '']
+    rs3_array = [row[17] for row in entries if row[17] != '']
     if rs3_array:
         rs3_array = np.array(rs3_array)
         rs3_avg = np.mean(rs3_array) ## avg
